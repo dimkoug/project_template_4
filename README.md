@@ -49,3 +49,6 @@ Command to use for this template
 1. Install the packages in your virtualenv
 2. django-admin startproject projectname --template=https://github.com/dimkoug/project_template_4/archive/master.zip
 3. copy settings_local_sample.py to settings_local.py
+4. create migrations for users app `python manage.py makemigrations users`
+5. create migrations for profiles app `python manage.py makemigrations profiles`
+6. create database  `python manage.py migrate`
