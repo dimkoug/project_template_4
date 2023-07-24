@@ -19,9 +19,6 @@ class BootstrapForm:
                 self.fields[field].widget.attrs.update({
                     'class': 'form-control'
                 })
-                self.fields[field].widget.attrs.update({
-                    'placeholder': field
-                })
 
 
 class CoreBaseForm(BootstrapForm, forms.ModelForm):
