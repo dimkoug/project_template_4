@@ -23,3 +23,20 @@ def update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     if hasattr(instance, 'profile'):
         instance.profile.save()
+
+
+class Invitation(models.Model):
+    email = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        default_related_name = 'invitations'
+        verbose_name = 'invitation'
+        verbose_name_plural = 'invitations'
+        unique_together = (('user', 'email'),)
+        indexes = [
+            models.Index(fields=['user', 'email']),
+        ]
+
+    def __str__(self):
+        return f"{self.email}"

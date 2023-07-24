@@ -57,6 +57,27 @@ class SignupView(FormView):
     form_class = UserCreationForm
     template_name = 'registration/signup.html'
 
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        if 'email' in request.session:
+            email = request.session['email']
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                user = None
+            if user:
+                login(request, user)
+                return redirect('index')
+        return super().get(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'email' in self.request.session:
+            initial.update({
+                'email': self.request.session['email']
+            })
+        return initial
+
     def form_valid(self, form):
         if form.is_valid():
             user = form.save(commit=False)

@@ -21,6 +21,7 @@ def get_url(context, action, obj=None):
     app:model-delete
     app:model-detail
     '''
+    url = ''
     if not obj:
         model = context['model']
         lower_name = model.__name__.lower()
@@ -35,7 +36,8 @@ def get_url(context, action, obj=None):
        try:
            url = reverse(url_string, kwargs={'pk': obj.pk})
        except NoReverseMatch:
-           url = reverse(url_string, kwargs={'slug': obj.slug})
+           if hasattr(obj, 'slug'):
+               url = reverse(url_string, kwargs={'slug': obj.slug})
     if not obj:
         url_string = '{}:{}-{}'.format(app, lower_name, action)
         url = reverse_lazy(url_string)

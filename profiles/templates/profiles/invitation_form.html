@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load core %}
+{% block page_title %}Invitation {% if form.instance.pk %} Update {% else %} Create {% endif %}{% endblock %}
+{% block content %}
+<div class="container wrapper">
+  <div class="row py-2">
+    <div class="col">
+      <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <div class="row">
+          <div class="col">
+            <button type="submit" class="btn btn-primary float-right">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

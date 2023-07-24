@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load core %}
+{% load erp %}
+{% block page_title %}Invitations{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row py-2">
+    <div class="col">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a href="{% url 'invitation-create' %}" class="btn btn-primary">Add</a>
+    </div>
+    </div>
+  </div>
+  <div class="row py-2">
+    <div class="col">
+      <table class="table table-stripped table-bordered">
+        <thead>
+          <tr>
+            <th colspan="4" style='text-align:center;font-size:1.3rem'>Invitations</th>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for obj in object_list %}
+          <tr>
+            <td>{{obj.email}}</td>
+            <td>
+              {% include "partials/action_buttons.html" with item=obj %}
+              {% user_exists obj.email as user %}
+              {% if not user  %}
+              <a href="{% url 'send-invitation' obj.pk %}">Send Invitation</a>
+              {% else %}
+                user subcribed with {{user.email}}
+                <a href="{% url 'remove-invitation' obj.pk %}">Remove user</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% include 'pagination.html' %}
+</div>
+
+{% endblock %}
